@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { createBrowserClient } from "@supabase/ssr"
 import DashboardModerno from "@/components/dashboard-moderno"
 import WelcomeLoader from "@/components/welcome-loader"
 import { TrendingUp } from "lucide-react"
 
 export default function Home() {
+  const router = useRouter()
   const [dados, setDados] = useState<any[]>([])
   const [tags, setTags] = useState<any[]>([])
   const [categorias, setCategorias] = useState<any[]>([])
@@ -15,6 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [showLoader, setShowLoader] = useState(false)
   const [userName, setUserName] = useState("Usuário")
+  const [authenticated, setAuthenticated] = useState(false)
   const [filtros, setFiltros] = useState<any>({
     mes: new Date().getMonth() + 1,
     ano: new Date().getFullYear(),
@@ -29,17 +32,29 @@ export default function Home() {
   )
 
   useEffect(() => {
-    // Verificar se é a primeira vez que entra (não é refresh)
-    const isFirstVisit = sessionStorage.getItem("hasVisited") === null
-    if (isFirstVisit) {
-      setShowLoader(true)
-      sessionStorage.setItem("hasVisited", "true")
+    // Verificar autenticação primeiro
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
       
-      // Obter nome do usuário
-      supabase.auth.getUser().then(({ data: { user } }) => {
-        if (user?.user_metadata?.name) {
+      if (!user) {
+        // Se não há usuário, redirecionar para login
+        router.push("/login")
+        return
+      }
+      
+      // Usuário autenticado
+      setAuthenticated(true)
+      
+      // Verificar se é a primeira vez que entra (não é refresh)
+      const isFirstVisit = sessionStorage.getItem("hasVisited") === null
+      if (isFirstVisit) {
+        setShowLoader(true)
+        sessionStorage.setItem("hasVisited", "true")
+        
+        // Obter nome do usuário
+        if (user.user_metadata?.name) {
           setUserName(user.user_metadata.name)
-        } else if (user?.email) {
+        } else if (user.email) {
           // Se for o email específico, usar "Sr: Luiz"
           if (user.email === "onbossdigital@gmail.com") {
             setUserName("Sr: Luiz")
@@ -48,11 +63,13 @@ export default function Home() {
             setUserName(nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1))
           }
         }
-      })
+      }
+      
+      carregarDados()
     }
     
-    carregarDados()
-  }, [])
+    checkAuth()
+  }, [router])
 
   const carregarDados = async () => {
     try {
@@ -113,6 +130,18 @@ export default function Home() {
 
   const updateFiltros = (novosFiltros: any) => {
     setFiltros(novosFiltros)
+  }
+
+  // Se não está autenticado, mostrar loader
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+          <p className="mt-4 text-slate-400">Verificando autenticação...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
