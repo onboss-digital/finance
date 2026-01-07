@@ -1,0 +1,480 @@
+{
+  "supabase_tables": {
+    "categorias": {
+      "description": "Categorias de entrada/saída",
+      "fields": {
+        "id": {
+          "type": "UUID",
+          "primary_key": true,
+          "auto_generated": true
+        },
+        "created_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "nome": {
+          "type": "VARCHAR(100)",
+          "unique": true,
+          "not_null": true,
+          "example": "Vendas"
+        },
+        "tipo": {
+          "type": "VARCHAR(20)",
+          "not_null": true,
+          "enum": ["entrada", "saida"],
+          "example": "entrada"
+        },
+        "descricao": {
+          "type": "TEXT",
+          "nullable": true,
+          "example": "Receita de vendas de produtos"
+        },
+        "cor": {
+          "type": "VARCHAR(7)",
+          "default": "#06b6d4",
+          "example": "#10b981"
+        },
+        "ativo": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      },
+      "constraints": {
+        "unique_nome": "UNIQUE(nome)",
+        "check_tipo": "CHECK(tipo IN ('entrada', 'saida'))",
+        "check_nome_empty": "CHECK(LENGTH(TRIM(nome)) > 0)"
+      },
+      "indexes": [
+        "idx_categorias_tipo",
+        "idx_categorias_ativo",
+        "idx_categorias_nome"
+      ],
+      "rls_enabled": true,
+      "policies": {
+        "select": "Permitir SELECT em categorias",
+        "insert": "Permitir INSERT em categorias",
+        "update": "Permitir UPDATE em categorias",
+        "delete": "Permitir DELETE em categorias"
+      },
+      "default_data": [
+        {
+          "nome": "Vendas",
+          "tipo": "entrada",
+          "cor": "#10b981"
+        },
+        {
+          "nome": "Serviços",
+          "tipo": "entrada",
+          "cor": "#06b6d4"
+        },
+        {
+          "nome": "Investimentos",
+          "tipo": "entrada",
+          "cor": "#3b82f6"
+        },
+        {
+          "nome": "Devolução",
+          "tipo": "entrada",
+          "cor": "#8b5cf6"
+        },
+        {
+          "nome": "Outras Entradas",
+          "tipo": "entrada",
+          "cor": "#14b8a6"
+        },
+        {
+          "nome": "Salários",
+          "tipo": "saida",
+          "cor": "#ef4444"
+        },
+        {
+          "nome": "Fornecedores",
+          "tipo": "saida",
+          "cor": "#f97316"
+        },
+        {
+          "nome": "Aluguel",
+          "tipo": "saida",
+          "cor": "#ec4899"
+        },
+        {
+          "nome": "Utilidades",
+          "tipo": "saida",
+          "cor": "#f59e0b"
+        },
+        {
+          "nome": "Impostos",
+          "tipo": "saida",
+          "cor": "#6366f1"
+        },
+        {
+          "nome": "Marketing",
+          "tipo": "saida",
+          "cor": "#d946ef"
+        },
+        {
+          "nome": "Operacional",
+          "tipo": "saida",
+          "cor": "#84cc16"
+        },
+        {
+          "nome": "Outras Saídas",
+          "tipo": "saida",
+          "cor": "#64748b"
+        }
+      ]
+    },
+    "responsaveis": {
+      "description": "Pessoas responsáveis por lançamentos",
+      "fields": {
+        "id": {
+          "type": "UUID",
+          "primary_key": true,
+          "auto_generated": true
+        },
+        "created_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "nome": {
+          "type": "VARCHAR(100)",
+          "unique": true,
+          "not_null": true,
+          "example": "Maria"
+        },
+        "email": {
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "example": "maria@empresa.com"
+        },
+        "ativo": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      },
+      "constraints": {
+        "unique_nome": "UNIQUE(nome)"
+      },
+      "indexes": [
+        "idx_responsaveis_ativo",
+        "idx_responsaveis_nome",
+        "idx_responsaveis_email"
+      ],
+      "rls_enabled": true,
+      "default_data": [
+        {
+          "nome": "Maria",
+          "email": "maria@empresa.com"
+        },
+        {
+          "nome": "Carlos",
+          "email": "carlos@empresa.com"
+        },
+        {
+          "nome": "Diretor",
+          "email": "diretor@empresa.com"
+        },
+        {
+          "nome": "RH",
+          "email": "rh@empresa.com"
+        },
+        {
+          "nome": "Compras",
+          "email": "compras@empresa.com"
+        },
+        {
+          "nome": "Admin",
+          "email": "admin@empresa.com"
+        },
+        {
+          "nome": "Financeiro",
+          "email": "financeiro@empresa.com"
+        },
+        {
+          "nome": "Marketing",
+          "email": "marketing@empresa.com"
+        }
+      ]
+    },
+    "tags": {
+      "description": "Tags/Projetos para classificar lançamentos",
+      "fields": {
+        "id": {
+          "type": "UUID",
+          "primary_key": true,
+          "auto_generated": true
+        },
+        "created_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "nome": {
+          "type": "VARCHAR(100)",
+          "unique": true,
+          "not_null": true,
+          "example": "SnapHubb"
+        },
+        "descricao": {
+          "type": "TEXT",
+          "nullable": true,
+          "example": "Operação/Projeto SnapHubb"
+        },
+        "cor": {
+          "type": "VARCHAR(7)",
+          "default": "#06b6d4",
+          "example": "#06b6d4"
+        },
+        "ativo": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      },
+      "constraints": {
+        "unique_nome": "UNIQUE(nome)"
+      },
+      "indexes": [
+        "idx_tags_ativo",
+        "idx_tags_nome"
+      ],
+      "rls_enabled": true,
+      "default_data": [
+        {
+          "nome": "SnapHubb",
+          "descricao": "Operação/Projeto SnapHubb",
+          "cor": "#06b6d4"
+        },
+        {
+          "nome": "Lumpic",
+          "descricao": "Operação/Projeto Lumpic",
+          "cor": "#10b981"
+        },
+        {
+          "nome": "Administrativo",
+          "descricao": "Despesas administrativas gerais",
+          "cor": "#f59e0b"
+        },
+        {
+          "nome": "Investimentos",
+          "descricao": "Investimentos e novos projetos",
+          "cor": "#8b5cf6"
+        }
+      ]
+    },
+    "metas": {
+      "description": "Metas de entrada/saída por categoria e período",
+      "fields": {
+        "id": {
+          "type": "UUID",
+          "primary_key": true,
+          "auto_generated": true
+        },
+        "created_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "categoria_id": {
+          "type": "UUID",
+          "foreign_key": "categorias(id)",
+          "on_delete": "CASCADE",
+          "not_null": true
+        },
+        "tipo": {
+          "type": "VARCHAR(20)",
+          "enum": ["entrada", "saida"],
+          "not_null": true,
+          "example": "entrada"
+        },
+        "valor_meta": {
+          "type": "DECIMAL(15,2)",
+          "not_null": true,
+          "check": "valor_meta > 0",
+          "example": 15000.00
+        },
+        "mes": {
+          "type": "INTEGER",
+          "not_null": true,
+          "range": "1-12",
+          "example": 1
+        },
+        "ano": {
+          "type": "INTEGER",
+          "not_null": true,
+          "range": ">=2000",
+          "example": 2026
+        }
+      },
+      "constraints": {
+        "unique_meta": "UNIQUE(categoria_id, mes, ano)",
+        "check_mes": "CHECK(mes >= 1 AND mes <= 12)",
+        "check_ano": "CHECK(ano >= 2000)",
+        "check_valor": "CHECK(valor_meta > 0)"
+      },
+      "indexes": [
+        "idx_metas_categoria",
+        "idx_metas_periodo",
+        "idx_metas_tipo"
+      ],
+      "rls_enabled": true
+    },
+    "lancamentos": {
+      "description": "Registros de entradas e saídas financeiras",
+      "fields": {
+        "id": {
+          "type": "UUID",
+          "primary_key": true,
+          "auto_generated": true
+        },
+        "created_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "updated_at": {
+          "type": "TIMESTAMP",
+          "default": "NOW()"
+        },
+        "data": {
+          "type": "DATE",
+          "not_null": true,
+          "example": "2026-01-07"
+        },
+        "mes": {
+          "type": "INTEGER",
+          "not_null": true,
+          "range": "1-12",
+          "example": 1
+        },
+        "ano": {
+          "type": "INTEGER",
+          "not_null": true,
+          "example": 2026
+        },
+        "tipo": {
+          "type": "VARCHAR(20)",
+          "enum": ["entrada", "saida"],
+          "not_null": true,
+          "example": "entrada"
+        },
+        "categoria_id": {
+          "type": "UUID",
+          "foreign_key": "categorias(id)",
+          "on_delete": "SET NULL",
+          "nullable": true
+        },
+        "responsavel_id": {
+          "type": "UUID",
+          "foreign_key": "responsaveis(id)",
+          "on_delete": "SET NULL",
+          "nullable": true
+        },
+        "tag_id": {
+          "type": "UUID",
+          "foreign_key": "tags(id)",
+          "on_delete": "SET NULL",
+          "nullable": true
+        },
+        "descricao": {
+          "type": "TEXT",
+          "not_null": true,
+          "example": "Venda de produto X"
+        },
+        "valor": {
+          "type": "DECIMAL(15,2)",
+          "not_null": true,
+          "check": "valor > 0",
+          "example": 1500.00
+        },
+        "status": {
+          "type": "VARCHAR(20)",
+          "enum": ["pendente", "concluido", "cancelado"],
+          "default": "concluido",
+          "example": "concluido"
+        },
+        "notas": {
+          "type": "TEXT",
+          "nullable": true
+        },
+        "documento": {
+          "type": "VARCHAR(100)",
+          "nullable": true,
+          "example": "NF001"
+        }
+      },
+      "constraints": {
+        "check_mes": "CHECK(mes >= 1 AND mes <= 12)",
+        "check_ano": "CHECK(ano >= 2000)",
+        "check_valor": "CHECK(valor > 0)",
+        "check_status": "CHECK(status IN ('pendente', 'concluido', 'cancelado'))",
+        "check_descricao": "CHECK(LENGTH(TRIM(descricao)) > 0)"
+      },
+      "indexes": [
+        "idx_lancamentos_data",
+        "idx_lancamentos_mes_ano",
+        "idx_lancamentos_tipo",
+        "idx_lancamentos_categoria",
+        "idx_lancamentos_responsavel",
+        "idx_lancamentos_tag",
+        "idx_lancamentos_status"
+      ],
+      "rls_enabled": true
+    }
+  },
+  "foreign_keys": {
+    "metas.categoria_id": {
+      "references": "categorias.id",
+      "on_delete": "CASCADE"
+    },
+    "lancamentos.categoria_id": {
+      "references": "categorias.id",
+      "on_delete": "SET NULL"
+    },
+    "lancamentos.responsavel_id": {
+      "references": "responsaveis.id",
+      "on_delete": "SET NULL"
+    },
+    "lancamentos.tag_id": {
+      "references": "tags.id",
+      "on_delete": "SET NULL"
+    }
+  },
+  "relationships": {
+    "categorias": {
+      "has_many_metas": true,
+      "has_many_lancamentos": true
+    },
+    "responsaveis": {
+      "has_many_lancamentos": true
+    },
+    "tags": {
+      "has_many_lancamentos": true
+    }
+  },
+  "total_default_records": {
+    "categorias": 13,
+    "responsaveis": 8,
+    "tags": 4,
+    "metas": 0,
+    "lancamentos": 0
+  },
+  "sql_file": "scripts/00_SETUP_COMPLETO.sql",
+  "test_script": "scripts/test-supabase.js",
+  "documentation": [
+    "SETUP_SUPABASE.md",
+    "SINCRONIZACAO_SUPABASE.md"
+  ]
+}
