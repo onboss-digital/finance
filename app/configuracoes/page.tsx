@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { AlertCircle, Plus, Trash2, Users, Tag, SettingsIcon, Shield } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import TopNav from "@/components/top-nav"
-import BottomNav from "@/components/bottom-nav"
 
 export default function ConfiguracoesPage() {
   const [responsaveis, setResponsaveis] = useState<any[]>([])
@@ -182,8 +180,7 @@ export default function ConfiguracoesPage() {
 
   return (
     <>
-      <TopNav />
-      <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 pb-24 md:pb-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pb-24 md:pb-8">
         <div className="max-w-5xl mx-auto px-4 py-8">
           {/* Header com ícone */}
           <div className="mb-10">
@@ -555,7 +552,6 @@ export default function ConfiguracoesPage() {
           </Tabs>
         </div>
       </div>
-      <BottomNav />
     </>
   )
 }
