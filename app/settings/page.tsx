@@ -204,8 +204,8 @@ export default function SettingsPage() {
                         onChange={(e) => setNovaCategoria({ ...novaCategoria, tipo: e.target.value })}
                         className="px-3 py-2 bg-slate-700/50 border border-slate-600 rounded-md text-slate-200"
                       >
-                        <option value="entrada">📥 Entrada</option>
-                        <option value="saida">📤 Saída</option>
+                        <option value="entrada">Entrada</option>
+                        <option value="saida">Saída</option>
                       </select>
                       <Button onClick={adicionarCategoria} size="sm" className="gap-2">
                         <Plus className="w-4 h-4" />
@@ -217,7 +217,7 @@ export default function SettingsPage() {
                   <div className="grid md:grid-cols-2 gap-4">
                     {/* Entradas */}
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-emerald-400">📥 Categorias de Entrada</h3>
+                      <h3 className="font-semibold text-emerald-400">Categorias de Entrada</h3>
                       <div className="space-y-2">
                         {categorias
                           .filter((cat) => cat.tipo === "entrada")
@@ -248,7 +248,7 @@ export default function SettingsPage() {
 
                     {/* Saídas */}
                     <div className="space-y-2">
-                      <h3 className="font-semibold text-red-400">📤 Categorias de Saída</h3>
+                      <h3 className="font-semibold text-red-400">Categorias de Saída</h3>
                       <div className="space-y-2">
                         {categorias
                           .filter((cat) => cat.tipo === "saida")
