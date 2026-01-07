@@ -146,14 +146,16 @@ export default function TopNav() {
 
                   {/* Menu Items */}
                   <div className="px-2 py-3 space-y-2">
-                    <Link
-                      href="/configuracoes"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-colors flex items-center gap-2"
+                    <button
+                      onClick={() => {
+                        setIsDropdownOpen(false)
+                        window.location.href = "/configuracoes"
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-colors flex items-center gap-2"
                     >
                       <User className="w-4 h-4" />
                       Meu Perfil
-                    </Link>
+                    </button>
                   </div>
 
                   {/* Logout Section */}
