@@ -159,12 +159,12 @@ export default function Home() {
           {/* Header premium */}
           <div className="mb-8 sm:mb-12">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-linear-to-br from-cyan-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center flex-shrink-0">
                 <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">ONBOSS FINANCE</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">ONBOSS DIGITAL</h1>
             </div>
-            <p className="text-slate-400 text-xs sm:text-sm ml-13">Gestão financeira inteligente e em tempo real</p>
+            <p className="text-slate-400 text-xs sm:text-sm ml-13">Gestão financeira completa, inteligente e em tempo real</p>
           </div>
 
           {/* Dashboard Principal */}

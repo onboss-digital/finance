@@ -176,8 +176,8 @@ export default function WelcomeLoader({ userName = "Usuário", onComplete }: Wel
           </div>
 
           {/* Main logo box with glow */}
-          <div className="relative w-32 h-32 rounded-3xl bg-gradient-to-br from-cyan-500/80 to-emerald-500/80 flex items-center justify-center glow-effect shadow-2xl border border-cyan-400/30 backdrop-blur-sm">
-            <div className="text-white text-5xl font-bold tracking-tighter">OF</div>
+          <div className="relative w-32 h-32 rounded-3xl bg-gradient-to-br from-cyan-500/80 to-emerald-500/80 flex items-center justify-center glow-effect shadow-2xl border border-cyan-400/30 backdrop-blur-sm overflow-hidden">
+            <img src="/avatar/profile.jpg" alt="Profile" className="w-full h-full object-cover rounded-3xl" />
           </div>
 
           {/* Decorative corner elements */}
