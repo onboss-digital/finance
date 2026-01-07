@@ -1,5 +1,5 @@
 [build]
-  command = "TURBOPACK=false pnpm run build"
+  command = "pnpm run build"
   publish = ".next"
 
 [build.environment]
