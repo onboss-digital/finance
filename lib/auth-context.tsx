@@ -20,6 +20,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = getBrowserClient()
 
   useEffect(() => {
+    // If Supabase client is not available (e.g., missing env vars), skip auth checks
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     const checkSession = async () => {
       const {
         data: { session },
@@ -40,7 +46,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [supabase])
 
   const signOut = async () => {
-    await supabase.auth.signOut()
+    if (supabase) {
+      await supabase.auth.signOut()
+    }
     setUser(null)
   }
 

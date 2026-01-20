@@ -21,6 +21,13 @@ export function useCachedData<T>(table: string, cacheKey: string) {
 
         // Carregar dados frescos
         const supabase = getBrowserClient()
+        
+        // If Supabase is not available, just use cached data
+        if (!supabase) {
+          setLoading(false)
+          return
+        }
+
         const { data: freshData, error: err } = await supabase.from(table).select("*")
 
         if (err) throw err

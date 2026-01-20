@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { BarChart3, LineChart, Target, Plus, Settings } from "lucide-react"
+import { BarChart3, LineChart, Plus, Settings } from "lucide-react"
 import Link from "next/link"
 
 export default function BottomNav() {
@@ -9,9 +9,8 @@ export default function BottomNav() {
 
   const navItems = [
     { href: "/", icon: BarChart3, label: "Dashboard" },
-    { href: "/#analise", icon: LineChart, label: "Análise" },
-    { href: "/#metas", icon: Target, label: "Metas" },
-    { href: "/#lancamentos", icon: Plus, label: "Novo" },
+    { href: "/relatorios", icon: LineChart, label: "Relatórios" },
+    { href: "/lancamentos", icon: Plus, label: "Novo" },
     { href: "/configuracoes", icon: Settings, label: "Config" },
   ]
 
@@ -20,7 +19,7 @@ export default function BottomNav() {
       <div className="flex items-center justify-around">
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href || (item.href.includes("#") && pathname === "/")
+          const isActive = pathname === item.href
 
           return (
             <Link

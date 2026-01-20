@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { createBrowserClient } from "@supabase/ssr"
+import { getBrowserClient } from "@/lib/supabase-client"
 import DashboardModerno from "@/components/dashboard-moderno"
 import WelcomeLoader from "@/components/welcome-loader"
 import { TrendingUp } from "lucide-react"
@@ -26,14 +26,15 @@ export default function Home() {
     tag_id: "todos",
   })
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = getBrowserClient()
 
   useEffect(() => {
     // Verificar autenticação primeiro
     const checkAuth = async () => {
+      if (!supabase) {
+        setLoading(false)
+        return
+      }
       const { data: { user } } = await supabase.auth.getUser()
       
       if (!user) {

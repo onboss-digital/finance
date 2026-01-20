@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { createBrowserClient } from "@supabase/ssr"
+import { getBrowserClient } from "@/lib/supabase-client"
 import { useSupabaseData } from "@/hooks/use-supabase-data"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,7 +27,7 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
     descricao: "",
     responsavel_id: "",
     valor: "",
-    status: "pago",
+    status: "pendente",
     tag_id: "",
   })
 
@@ -46,11 +46,6 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
     const formatted = formatBRL(e.target.value)
     setFormData({ ...formData, valor: formatted })
   }
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
 
   // Definir categoria padrão quando categorias são carregadas
   useEffect(() => {
@@ -72,6 +67,15 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
 
     try {
       setLoading(true)
+      const supabaseClient = getBrowserClient()
+      console.log('getBrowserClient result:', supabaseClient ? '✓ Client exists' : '✗ Client is null')
+      
+      if (!supabaseClient) {
+        alert("Erro: Supabase não configurado")
+        setLoading(false)
+        return
+      }
+
       const data = new Date(formData.data)
       const mes = data.getMonth() + 1
       const ano = data.getFullYear()
@@ -79,22 +83,23 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
       // Converter valor BRL para número
       const valorNumero = parseFloat(formData.valor.replace(/\./g, "").replace(",", "."))
 
-      const { error } = await supabase.from("lancamentos").insert([
-        {
-          data: formData.data,
-          mes,
-          ano,
-          tipo: formData.tipo,
-          categoria_id: formData.categoria_id,
-          responsavel_id: formData.responsavel_id,
-          descricao: formData.descricao,
-          valor: valorNumero,
-          status: formData.status,
-          tag_id: formData.tag_id || null,
-        },
-      ])
-
-      if (error) throw error
+      const payload = {
+        data: formData.data,
+        mes,
+        ano,
+        tipo: formData.tipo,
+        categoria_id: formData.categoria_id,
+        responsavel_id: formData.responsavel_id,
+        descricao: formData.descricao,
+        valor: valorNumero,
+        status: formData.status,
+        tag_id: formData.tag_id || null,
+      }
+      
+      console.log('Enviando lançamento:', payload)
+      const { error } = await supabaseClient.from("lancamentos").insert([payload])
+      
+      console.log('Resposta do Supabase:', { error })
 
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
@@ -106,7 +111,7 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
         descricao: "",
         responsavel_id: "",
         valor: "",
-        status: "pago",
+        status: "pendente",
         tag_id: "",
       })
       onSucesso()
@@ -266,11 +271,11 @@ export default function LancamentosForm({ onSucesso }: LancamentosFormProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700">
-                  <SelectItem value="pago" className="text-white text-sm">
-                    Pago
-                  </SelectItem>
                   <SelectItem value="pendente" className="text-white text-sm">
                     Pendente
+                  </SelectItem>
+                  <SelectItem value="concluido" className="text-white text-sm">
+                    Concluído
                   </SelectItem>
                   <SelectItem value="cancelado" className="text-white text-sm">
                     Cancelado

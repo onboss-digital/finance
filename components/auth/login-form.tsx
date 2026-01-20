@@ -14,13 +14,18 @@ export default function LoginForm() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const supabase = getBrowserClient()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
     try {
+      const supabase = getBrowserClient()
+      if (!supabase) {
+        setError("Configuração de autenticação indisponível. Contate o suporte.")
+        return
+      }
+
       setLoading(true)
       const { error } = await supabase.auth.signInWithPassword({
         email,

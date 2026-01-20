@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { createBrowserClient } from "@supabase/ssr"
+import { getBrowserClient } from "@/lib/supabase-client"
 
 interface Categoria {
   id: string
@@ -27,14 +27,16 @@ export function useSupabaseData() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = getBrowserClient()
 
   useEffect(() => {
     const carregarDados = async () => {
       try {
+        if (!supabase) {
+          setError("Configuração de banco de dados não disponível")
+          setLoading(false)
+          return
+        }
         setLoading(true)
         setError(null)
 

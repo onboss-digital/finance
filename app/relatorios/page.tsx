@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createBrowserClient } from "@supabase/ssr"
+import { getBrowserClient } from "@/lib/supabase-client"
 import { FileText } from "lucide-react"
 import RelatorioCompleto from "@/components/relatorios/relatorio-completo"
 import ExportadorCSV from "@/components/relatorios/exportador-csv"
@@ -12,10 +12,11 @@ export default function RelatoriosPage() {
   const [filtroMes, setFiltroMes] = useState(new Date().getMonth() + 1)
   const [filtroAno, setFiltroAno] = useState(new Date().getFullYear())
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-  )
+  const supabase = getBrowserClient()
+
+  if (!supabase) {
+    return <div className="p-4 text-red-500">Erro: Configuração não disponível</div>
+  }
 
   useEffect(() => {
     carregarDados()
